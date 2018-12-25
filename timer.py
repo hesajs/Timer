@@ -13,15 +13,21 @@ def parse_minute():
     min=entries_first.get()
     return min
 
-def parse_display():
-    display = Text(master=root, height=12, width=15)
-    display.grid(row=3, column=1)
-    counter=1
-    for i in range(1, int(parse_second())+1):
-        time.sleep(1)
-        display.insert(END, counter%60)
-        counter+=1 
+def clear():
+	list = root.grid_slaves()
+	for l in list:
+		l.destroy()
 
+def canvas_display():
+	clear()
+	w = Canvas(root, width=200, height=100)
+	w.pack()
+	for i in range(5):
+		root.after(500)
+		w.create_text(100, 50, text=i)
+		root.after(500)
+		w.delete("all")
+	
 #LABEL
 label1=Label(text="Minutes", font=("Times New Roman", 16))
 label1.grid(row=0, column=0)
@@ -37,7 +43,7 @@ entries_second=Entry()
 entries_second.grid(row=1, column=1)
 
 #BUTTONS
-button1=Button(text="Click Me", command=parse_display)
-button1.grid(row=3, column=1)
+button1=Button(text="Click Me", command=canvas_display, compound=CENTER)
+button1.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 root.mainloop()
